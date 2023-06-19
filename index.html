@@ -407,8 +407,8 @@
                     document.getElementById("nav2").innerHTML += `<a href="/login">Login</a> <a href="/signup">Signup</a>`;
                 } else if (userInfomation.status == "Success"){
                     // Logged in
-                    document.getElementById("nav1").innerHTML += `<a href="/profile">Profile</a>`;
-                    document.getElementById("nav2").innerHTML += `<a href="/logout">logout</a>`;
+                    document.getElementById("nav1").innerHTML += `<a href="/profile">Profile</a> <a href="/logout">Logout</a>`;
+                    document.getElementById("nav2").innerHTML += `<a href="/profile">Profile</a> <a href="/logout">Logout</a>`;
                 }
             });
         } else{
