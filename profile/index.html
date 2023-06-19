@@ -616,7 +616,13 @@
             var confirm_password = document.getElementById("confirm_password");
 
             webpulsex_updateInfo(sessionID, new_first_name, new_last_name, new_email, new_username, confirm_password, function(responce){
-                console.log(X);
+                if(responce.satus == "Email in use"){
+                    showError("The enterd Email is in use");
+                } else if(responce.satus == "Username in use"){
+                    showError("The enterd Username is in use");
+                } else if(responce.status == "Invalid Password or Session"){
+                    showError("Incorrect Password");
+                }
             })
         }
     </script>
