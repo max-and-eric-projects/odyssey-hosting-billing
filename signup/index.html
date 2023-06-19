@@ -399,6 +399,9 @@
             navbarMenu.classList.toggle("active");
         }
 
+        // Get where we are going next
+        const params = new Proxy(new URLSearchParams(window.location.search),{get:(searchParams,prop)=>searchParams.get(prop),});
+
         function showError(error){
             document.getElementById("error-banner").innerHTML = `<p> ${error} </p>`;
             document.getElementById("error-banner").classList.remove("noerror");
@@ -419,7 +422,11 @@
                     if (userInfomation.status == "Email or username in use"){
                         showError("Username and / or email in use.");
                     } else if (userInfomation.status == "Success"){
-                        window.location.replace("/store");
+                        if(params.r != null){
+                            window.location.replace(params.r);
+                        } else{
+                            window.location.replace("store");
+                        }
                         document.cookie = `session=${userInfomation.session}; expires=` + new Date(new Date().setMonth(new Date().getMonth() + 6)).toUTCString() + '; path=/';
                     } else{
                         showError("An error has occoured, please try again later or contact support.");
