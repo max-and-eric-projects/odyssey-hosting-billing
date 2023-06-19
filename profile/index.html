@@ -601,6 +601,10 @@
                 } else if (userInfomation.status == "Success"){
                     // Logged in
                     userInfo = userInfomation;
+                    document.getElementById("first_name").value = userInfomation.First_Name;
+                    document.getElementById("last_name").value = userInfomation.First_Name;
+                    document.getElementById("email").value = userInfomation.First_Name;
+                    document.getElementById("username").value = userInfomation.First_Name;
                 }
             });
         } else{
@@ -615,13 +619,16 @@
             var new_username = document.getElementById("username").value;
             var confirm_password = document.getElementById("confirm_password").value;
 
-            webpulsex_updateInfo(sessionID, new_first_name, new_last_name, new_email, new_username, confirm_password, function(responce){
+            webpulsex_updateInfo(sessionID, new_first_name, new_last_name, new_username, new_email, confirm_password, function(responce){
                 if(responce.satus == "Email in use"){
                     showError("The enterd Email is in use");
                 } else if(responce.satus == "Username in use"){
                     showError("The enterd Username is in use");
                 } else if(responce.status == "Invalid Password or Session"){
                     showError("Incorrect Password");
+                } else{
+                    showError("Incorrect Password");
+                    document.getElementById("confirm_password").value = "";
                 }
             })
         }
