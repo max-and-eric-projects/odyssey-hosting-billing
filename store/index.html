@@ -267,9 +267,6 @@
         <a href="/">Home</a>
         <a href="/store">Store</a>
         <a href="https://panel.odysseynetwork.online">Panel</a>
-        <a href="/login">Login</a>
-        <a href="/signup">Signup</a>
-        <a href="/logout.html">Logout</a>
     </div>
     
     <!-- Mobile navigation -->
@@ -283,9 +280,6 @@
             <a href="/">Home</a>
             <a href="/store">Store</a>
             <a href="https://panel.odysseynetwork.online">Panel</a>
-            <a href="/login">Login</a>
-            <a href="/signup">Signup</a>
-            <a href="/logout.html">Logout</a>
         </div>
     </div>
     
@@ -330,6 +324,39 @@
             menu.classList.toggle('active');
         }
 
+        // Check if the user is logged in
+        var loggedIn;
+        var sessionID;
+        
+        function getCookie(name) {
+            const cookieValue = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+            return cookieValue ? cookieValue.pop() : '';
+        }
+
+        sessionID = getCookie('session');
+        loggedIn = sessionID ? true : false;
+        
+        // Check if the session is valid
+        if (loggedIn){
+            webpulsex_getFromSession(sessionID, function(userInfomation) {
+                if (userInfomation.status == "Invalid session"){
+                    document.cookie = "session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                    // Not logged in
+                    document.getElementById("nav1").innerHTML += `<a href="/login">Login</a> <a href="/signup">Signup</a>`;
+                    document.getElementById("nav2").innerHTML += `<a href="/login">Login</a> <a href="/signup">Signup</a>`;
+                } else if (userInfomation.status == "Success"){
+                    // Logged in
+                    document.getElementById("nav1").innerHTML += `<a href="/profile">Profile</a> <a href="/logout">Logout</a>`;
+                    document.getElementById("nav2").innerHTML += `<a href="/profile">Profile</a> <a href="/logout">Logout</a>`;
+                }
+            });
+        } else{
+            // Not logged in
+            document.getElementById("nav1").innerHTML += `<a href="/login">Login</a> <a href="/signup">Signup</a>`;
+            document.getElementById("nav2").innerHTML += `<a href="/login">Login</a> <a href="/signup">Signup</a>`;
+        }
+
+        // List the products
         webpulsex_listProducts(function(responce){
         if (responce.status == "Success"){
             for (var i = 0; i < responce.products.length; i++) {
