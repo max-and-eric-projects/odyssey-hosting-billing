@@ -447,7 +447,7 @@
         }
 
         .good-banner {
-            background-color: #f44336;
+            background-color: #599555;
             color: #fff;
             padding: 20px;
             text-align: center;
@@ -664,7 +664,7 @@
                 }
             });
         } else{
-            // Not logged in 
+            // Not logged in
             window.location.replace("/login");
         }
 
@@ -684,6 +684,7 @@
                     showError("Incorrect Password");
                 } else if(responce.status == "Success"){
                     document.getElementById("confirm_password").value = "";
+                    document.getElementById("error-banner").classList.add("noerror");
                     showGood("Details updated successfully");
                 }
             })
