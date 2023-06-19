@@ -342,7 +342,7 @@
 
     <!-- Mobile navigation -->
     <div class="navbar-mobile">
-        <div class="navbar-toggle" onclick="toggleNavbarMenu()">
+        <div class="navbar-toggle" onclick="toggleMenu()">
             <span></span>
             <span></span>
             <span></span>
@@ -390,9 +390,9 @@
 
     <!-- JavaScript -->
     <script>
-        function toggleNavbarMenu() {
-            var navbarMenu = document.getElementById("navbarMenu");
-            navbarMenu.classList.toggle("active");
+        function toggleMenu() {
+            var menu = document.querySelector('.navbar-menu');
+            menu.classList.toggle('active');
         }
 
         // Get where we are going next

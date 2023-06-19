@@ -548,6 +548,11 @@
     </div>
 
     <script>
+        function toggleMenu() {
+            var menu = document.querySelector('.navbar-menu');
+            menu.classList.toggle('active');
+        }
+
         // JavaScript to switch tabs
         function changeTab(event, tabName) {
             const tabs = document.getElementsByClassName("tab");
