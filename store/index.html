@@ -378,12 +378,12 @@
             for (var i = 0; i < responce.mcHosting.length; i++) {
                 var currentProductInfo = responce.mcHosting[i];
             	mcHosting.innerHTML = mcHosting.innerHTML+`
-<div class="box">
-	<h2>${currentProductInfo.Display_Name}</h2>
-	<b><p>$${currentProductInfo.Price / 100}</p></b>
-	<p>${currentProductInfo.Description}</p><br>
-	<b><a class="purchaseButton" href="/checkout?product=${currentProductInfo.Product_Identifier}">Purchase</a><b>
-</div>
+                <div class="buy-option">
+                    <div class="plan">
+                        <h3>${responce.display_name}</h3>
+                        <p>Price: $${responce.price}/month</p>
+                        <button>Buy Now</button>
+                </div>
 `;
             }
         } else{
