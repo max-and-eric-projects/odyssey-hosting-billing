@@ -295,62 +295,12 @@
         
         <div class="section" id="mcHosting">
             <h2>Minecraft Server Hosting</h2>
-            
-            <div class="buy-option">
-                <div class="plan">
-                    <h3>Basic Plan</h3>
-                    <p>Price: $9.99/month</p>
-                    <!-- Add more details for the basic plan -->
-                    <button>Buy Now</button>
-                </div>
-                
-                <div class="plan">
-                    <h3>Advanced Plan</h3>
-                    <p>Price: $19.99/month</p>
-                    <!-- Add more details for the advanced plan -->
-                    <button>Buy Now</button>
-                </div>
-                
-                <div class="plan">
-                    <h3>Premium Plan</h3>
-                    <p>Price: $29.99/month</p>
-                    <!-- Add more details for the premium plan -->
-                    <button>Buy Now</button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="section">
-            <h2>Dedicated Servers</h2>
-            
-            <div class="buy-option">
-                <div class="plan">
-                    <h3>Basic Server</h3>
-                    <p>Price: $99.99/month</p>
-                    <!-- Add more details for the basic server -->
-                    <button>Buy Now</button>
-                </div>
-                
-                <div class="plan">
-                    <h3>Advanced Server</h3>
-                    <p>Price: $199.99/month</p>
-                    <!-- Add more details for the advanced server -->
-                    <button>Buy Now</button>
-                </div>
-                
-                <div class="plan">
-                    <h3>Premium Server</h3>
-                    <p>Price: $299.99/month</p>
-                    <!-- Add more details for the premium server -->
-                    <button>Buy Now</button>
-                </div>
-            </div>
         </div>
     </div>
     
 <!-- Footer -->
 <div class="footer">
-    <p>&copy; 2023 Before Hours Hosting. All rights reserved. All trademarks acknowledged. Made By Max Dawson - WebPulseX</p>
+    <p>&copy; 2023 Before Hours Hosting. All rights reserved. All trademarks acknowledged. Made For Odyssey Hosting By WebPulseX</p>
     <p>
         <a href="/terms" style="color: #fff;">Terms of Service</a> |
         <a href="/privacy" style="color: #fff;">Privacy Policy</a> |
@@ -375,16 +325,19 @@
 
         webpulsex_listProducts(function(responce){
         if (responce.status == "Success"){
-            for (var i = 0; i < responce.mcHosting.length; i++) {
-                var currentProductInfo = responce.mcHosting[i];
-            	mcHosting.innerHTML = mcHosting.innerHTML+`
-                <div class="buy-option">
-                    <div class="plan">
-                        <h3>${responce.display_name}</h3>
-                        <p>Price: $${responce.price}/month</p>
-                        <button>Buy Now</button>
-                </div>
-`;
+            for (var i = 0; i < responce.products.length; i++) {
+                var currentProductInfo = responce.products[i];
+                if (currentProductInfo.Product_Identifier.startsWith("MINECRAFT")){
+                    mcHosting.innerHTML = mcHosting.innerHTML+`
+                    <div class="buy-option">
+                        <div class="plan">
+                            <h3>${currentProductInfo.Display_Name}</h3>
+                            <p>Price: $${currentProductInfo.Price/100}/month</p>
+                            <p>${currentProductInfo.Description}</p>
+                            <button>Buy Now</button>
+                    </div>
+                    `;
+                }
             }
         } else{
             errorBanner.textContent = "No products right now, come back later.";
