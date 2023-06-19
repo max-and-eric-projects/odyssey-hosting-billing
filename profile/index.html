@@ -568,6 +568,36 @@
             event.currentTarget.classList.add("active");
             document.getElementById(tabName).classList.add("active2");
         }
+
+        // Check if the user is logged in
+        var loggedIn;
+        var sessionID;
+        var userInfo;
+        
+        function getCookie(name) {
+            const cookieValue = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+            return cookieValue ? cookieValue.pop() : '';
+        }
+
+        sessionID = getCookie('session');
+        loggedIn = sessionID ? true : false;
+        
+        // Check if the session is valid
+        if (loggedIn){
+            webpulsex_getFromSession(sessionID, function(userInfomation) {
+                if (userInfomation.status == "Invalid session"){
+                    document.cookie = "session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                    // Not logged in
+                    window.location.replace("/login");
+                } else if (userInfomation.status == "Success"){
+                    // Logged in
+                    userInfo = userInfomation;
+                }
+            });
+        } else{
+            // Not logged in
+            window.location.replace("/login");
+        }
     </script>
 </body>
 </html>
