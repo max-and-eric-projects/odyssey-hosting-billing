@@ -558,11 +558,13 @@
     <script>
         var loadedElements = false;
 
-        var t=setInterval(loadeElements(),10);
+        var t=setInterval(loadeElements(),100);
 
         function loadeElements(){
-            if(loadedElements){
+            if(loadedElements == true){
                 document.getElementById("body").classList.remove("body");
+            } else{
+                console.log("Bru");
             }
         }
 
