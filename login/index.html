@@ -362,17 +362,13 @@
         <!-- Error banner -->
         <div class="error-banner noerror" id="error-banner"></div>
 
-        <h1>Sign Up</h1>
-        <p>Please fill out the form below to create an account for Odyssey Hosting.</p>
-        <form class="signup-form" action="javascript:;" onsubmit="do_signup()">
-            <h2>Create Account</h2>
-            <input type="text" id="first_name" placeholder="First Name" name="first_name" required>
-            <input type="text" id="last_name" placeholder="Last Name" name="last_name" required>
-            <input type="email" id="email" placeholder="Email" name="email" required>
-            <input type="text" id="username" placeholder="Username" name="username" required>
+        <h1>Login</h1>
+        <p>Please fill out the form below to log into Odyssey Hosting.</p>
+        <form class="signup-form" action="javascript:;" onsubmit="do_login()">
+            <h2>Login</h2>
+            <input type="text" id="username" placeholder="Username or Email" name="username" required>
             <input type="password" id="password" placeholder="Password" name="password" required>
-            <input type="password" id="password_conf" placeholder="Confirm Password" name="confirm_password" required>
-            <button type="submit">Sign Up</button>
+            <button type="submit">Login</button>
         </form>
         <p class="login-link" id="changeType"></p>
     </div>
@@ -409,9 +405,9 @@
 
         // Make the correct link for the signup redirect
         if(params.r != null){
-            document.getElementById("changeType").innerHTML = `Already got an account? <a href="/login?r=${params.r}">Signup</a>`;
+            document.getElementById("changeType").innerHTML = `New? <a href="/singup?r=${params.r}">Signup</a>`;
         } else{
-            document.getElementById("changeType").innerHTML = `Already got an account? <a href="/login">Login</a>`;
+            document.getElementById("changeType").innerHTML = `New? <a href="/singup">Signup</a>`;
         }
 
         // Check if the user is logged in
@@ -441,32 +437,25 @@
             });
         }
 
-        function do_signup(){
+        function do_login(){
             const username = document.getElementById("username");
             const password = document.getElementById("password");
-            const passwordconf = document.getElementById("password_conf");
-            const email = document.getElementById("email");
-            const firstName = document.getElementById("first_name");
-            const lastName = document.getElementById("last_name");
-            
-            if(password.value != passwordconf.value){
-                showError("Passwords do not match");
-            } else{
-                webpulsex_signup(username.value, password.value, lastName.value, firstName.value, email.value, function(userInfomation) {
-                    if (userInfomation.status == "Email or username in use"){
-                        showError("Username and / or email in use.");
-                    } else if (userInfomation.status == "Success"){
-                        if(params.r != null){
-                            window.location.replace(params.r);
-                        } else{
-                            window.location.replace("/store");
-                        }
-                        document.cookie = `session=${userInfomation.session}; expires=` + new Date(new Date().setMonth(new Date().getMonth() + 6)).toUTCString() + '; path=/';
+        
+            webpulsex_login(username.value, password.value, function(userInfomation) {
+                if (userInfomation.status == "Incorrect username or password"){
+                    showError("Incorrect username and/or password.");
+                    password.value = "";
+                } else if (userInfomation.status == "Success"){
+                    if(params.r != null){
+                        window.location.replace(params.r);
                     } else{
-                        showError("An error has occoured, please try again later or contact support.");
+                        window.location.replace("/store");
                     }
-                });
-            }
+                    document.cookie = `session=${userInfomation.session}; expires=` + new Date(new Date().setMonth(new Date().getMonth() + 6)).toUTCString() + '; path=/';
+                } else{
+                    showError("An error has occoured, please try again later or contact support.");
+                }
+            });
 	    }
     </script>
 </body>
