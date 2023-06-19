@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Odyssey Hosting</title>
+    <title>Odyssey Hosting - Shop</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://webpulsex.com/public/b9d7a79b63e885e1/main.js"></script>
     <style>
@@ -261,7 +261,6 @@
         }
     </style>
 </head>
-<html>
 <body>
     <!-- Desktop navigation -->
     <div class="navbar-desktop">
@@ -292,40 +291,30 @@
     
     <!-- Main content -->
     <div class="content">
-        <h1>Odyssey Hosting</h1>
-        <p>Welcome to Odyssey Hosting.</p>
+        <h1>Store</h1>
         
-        <div class="section">
+        <div class="section" id="mcHosting">
             <h2>Minecraft Server Hosting</h2>
             
             <div class="buy-option">
                 <div class="plan">
                     <h3>Basic Plan</h3>
-                    <p>Price: $0.00/month</p>
-                    <p>RAM: 0GB</p>
-                    <p>Player Slots: 0</p>
-                    <p>SSD Storage: 0GB</p>
-                    <p>Support: Standard</p>
+                    <p>Price: $9.99/month</p>
+                    <!-- Add more details for the basic plan -->
                     <button>Buy Now</button>
                 </div>
                 
                 <div class="plan">
                     <h3>Advanced Plan</h3>
-                    <p>Price: $0.00/month</p>
-                    <p>RAM: 0GB</p>
-                    <p>Player Slots: 0</p>
-                    <p>SSD Storage: 0GB</p>
-                    <p>Support: Pro</p>
+                    <p>Price: $19.99/month</p>
+                    <!-- Add more details for the advanced plan -->
                     <button>Buy Now</button>
                 </div>
                 
                 <div class="plan">
                     <h3>Premium Plan</h3>
-                    <p>Price: $0.00/month</p>
-                    <p>RAM: 0GB</p>
-                    <p>Player Slots: 0</p>
-                    <p>SSD Storage: 0GB</p>
-                    <p>Support: Premium</p>
+                    <p>Price: $29.99/month</p>
+                    <!-- Add more details for the premium plan -->
                     <button>Buy Now</button>
                 </div>
             </div>
@@ -337,31 +326,22 @@
             <div class="buy-option">
                 <div class="plan">
                     <h3>Basic Server</h3>
-                    <p>Price: $0.00/month</p>
-                    <p>RAM: 0GB</p>
-                    <p>Storage: 0GB SSD</p>
-                    <p>CPU: Intel Xeon E3</p>
-                    <p>Bandwidth: Unlimited</p>
+                    <p>Price: $99.99/month</p>
+                    <!-- Add more details for the basic server -->
                     <button>Buy Now</button>
                 </div>
                 
                 <div class="plan">
                     <h3>Advanced Server</h3>
-                    <p>Price: $0.00/month</p>
-                    <p>RAM: 0GB</p>
-                    <p>Storage: 0TB SSD</p>
-                    <p>CPU: Intel Xeon E5</p>
-                    <p>Bandwidth: Unlimited</p>
+                    <p>Price: $199.99/month</p>
+                    <!-- Add more details for the advanced server -->
                     <button>Buy Now</button>
                 </div>
                 
                 <div class="plan">
                     <h3>Premium Server</h3>
-                    <p>Price: $0.00/month</p>
-                    <p>RAM: 0GB</p>
-                    <p>Storage: 0TB SSD</p>
-                    <p>CPU: Intel Xeon E7</p>
-                    <p>Bandwidth: Unlimited</p>
+                    <p>Price: $299.99/month</p>
+                    <!-- Add more details for the premium server -->
                     <button>Buy Now</button>
                 </div>
             </div>
@@ -370,14 +350,14 @@
     
 <!-- Footer -->
 <div class="footer">
-    <p>&copy; 2023 Odyssey Hosting. All rights reserved. All trademarks acknowledged.</p>
+    <p>&copy; 2023 Before Hours Hosting. All rights reserved. All trademarks acknowledged. Made By Max Dawson - WebPulseX</p>
     <p>
         <a href="/terms" style="color: #fff;">Terms of Service</a> |
         <a href="/privacy" style="color: #fff;">Privacy Policy</a> |
         <a href="/contact" style="color: #fff;">Contact Us</a>
     </p>
     <p style="color: #fff;">
-        Email: info@odysseyhosting.com <br>
+        Email: info@bfterhourshosting.com <br>
         Phone: +1 (123) 456-7890 (Mon-Fri, 9am-5pm) <br>
         Address: 1234 Main Street, City, State, 12345
     </p>
@@ -386,10 +366,30 @@
 
     <!-- JavaScript -->
     <script>
+        const mcHosting = document.getElementById("mcHosting");
+
         function toggleMenu() {
             var menu = document.querySelector('.navbar-menu');
             menu.classList.toggle('active');
         }
+
+        webpulsex_listProducts(function(responce){
+        if (responce.status == "Success"){
+            for (var i = 0; i < responce.mcHosting.length; i++) {
+                var currentProductInfo = responce.mcHosting[i];
+            	mcHosting.innerHTML = mcHosting.innerHTML+`
+<div class="box">
+	<h2>${currentProductInfo.Display_Name}</h2>
+	<b><p>$${currentProductInfo.Price / 100}</p></b>
+	<p>${currentProductInfo.Description}</p><br>
+	<b><a class="purchaseButton" href="/checkout?product=${currentProductInfo.Product_Identifier}">Purchase</a><b>
+</div>
+`;
+            }
+        } else{
+            errorBanner.textContent = "No products right now, come back later.";
+        }
+    });
     </script>
 </body>
 </html>
