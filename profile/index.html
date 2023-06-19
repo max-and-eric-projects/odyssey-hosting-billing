@@ -446,6 +446,21 @@
             color:white;
         }
 
+        .good-banner {
+            background-color: #f44336;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .nogood{
+            display: none;
+        }
+        
+        .good-banner p {
+            margin: 0;
+            color:white;
+        }
     </style>
 </head>
 <body class="hide" id="body">
@@ -480,10 +495,9 @@
         <div class="tab" onclick="changeTab(event, 'billing')">Billing</div>
         <div class="tab" onclick="changeTab(event, 'active-products')">Active Products</div>
     </div>
-    <!-- Tab content - Profile Settings -->
     <div id="profile-settings" class="tab-content active2">
-        <!-- Error banner -->
         <div class="error-banner noerror" id="error-banner"></div>
+        <div class="good-banner nogood" id="good-banner"></div>
         <form class="profile-form" action="javascript:;" onsubmit="do_changeDetails()">
             <h2>Profile Settings</h2>
             <label>First Name:</label>
@@ -592,6 +606,11 @@
             document.getElementById("error-banner").classList.remove("noerror");
         }
 
+        function showGood(good){
+            document.getElementById("good-banner").innerHTML = `<p> ${good} </p>`;
+            document.getElementById("good-banner").classList.remove("nogood");
+        }
+
         // JavaScript to switch tabs
         function changeTab(event, tabName) {
             const tabs = document.getElementsByClassName("tab");
@@ -636,6 +655,11 @@
                     document.getElementById("email").value = userInfomation.email;
                     document.getElementById("username").value = userInfomation.username;
 
+                    document.getElementById("first_name").placeholder = userInfomation.first_name;
+                    document.getElementById("last_name").placeholder = userInfomation.last_name;
+                    document.getElementById("email").placeholder = userInfomation.email;
+                    document.getElementById("username").placeholder = userInfomation.username;
+
                     loadedElements = true;
                 }
             });
@@ -658,8 +682,9 @@
                     showError("The enterd Username is in use");
                 } else if(responce.status == "Invalid Password or Session"){
                     showError("Incorrect Password");
-                } else{
+                } else if(responce.status == "Success"){
                     document.getElementById("confirm_password").value = "";
+                    showGood("Details updated successfully");
                 }
             })
         }
