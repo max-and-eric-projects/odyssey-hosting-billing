@@ -425,9 +425,13 @@
             cursor: pointer;
             border-radius: 5px;
         }
+
+        .hide{
+            display: none;
+        }
     </style>
 </head>
-<body>
+<body class="hide" id="body">
     <!-- Desktop navigation -->
     <div class="navbar-desktop" id="nav1">
         <a href="/">Home</a>
@@ -552,6 +556,16 @@
     </div>
 
     <script>
+        var loadedElements = false;
+
+        var t=setInterval(loadeElements(),10);
+
+        function loadeElements(){
+            if(loadedElements){
+                document.getElementById("body").classList.remove("body");
+            }
+        }
+
         function toggleMenu() {
             var menu = document.querySelector('.navbar-menu');
             menu.classList.toggle('active');
@@ -601,10 +615,12 @@
                 } else if (userInfomation.status == "Success"){
                     // Logged in
                     userInfo = userInfomation;
-                    document.getElementById("first_name").value = userInfomation.First_Name;
-                    document.getElementById("last_name").value = userInfomation.First_Name;
-                    document.getElementById("email").value = userInfomation.First_Name;
-                    document.getElementById("username").value = userInfomation.First_Name;
+                    document.getElementById("first_name").value = userInfomation.first_name;
+                    document.getElementById("last_name").value = userInfomation.last_name;
+                    document.getElementById("email").value = userInfomation.email;
+                    document.getElementById("username").value = userInfomation.username;
+
+                    loadedElements = true;
                 }
             });
         } else{
