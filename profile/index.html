@@ -609,11 +609,11 @@
         }
 
         function do_changeDetails(){
-            var new_first_name = document.getElementById("first_name");
-            var new_last_name = document.getElementById("last_name");
-            var new_email = document.getElementById("email");
-            var new_username = document.getElementById("username");
-            var confirm_password = document.getElementById("confirm_password");
+            var new_first_name = document.getElementById("first_name").value;
+            var new_last_name = document.getElementById("last_name").value;
+            var new_email = document.getElementById("email").value;
+            var new_username = document.getElementById("username").value;
+            var confirm_password = document.getElementById("confirm_password").value;
 
             webpulsex_updateInfo(sessionID, new_first_name, new_last_name, new_email, new_username, confirm_password, function(responce){
                 if(responce.satus == "Email in use"){
