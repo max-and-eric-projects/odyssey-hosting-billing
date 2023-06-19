@@ -293,8 +293,14 @@
     <div class="content">
         <h1>Store</h1>
         
-        <div class="section" id="mcHosting">
+        <div class="section">
             <h2>Minecraft Server Hosting</h2>
+            <div class="buy-option" id="mcHosting"></div>
+        </div>
+
+        <div class="section">
+            <h2>FiveM Hosting</h2>
+            <div class="buy-option" id="fiveMHosting"></div>
         </div>
     </div>
     
@@ -317,6 +323,7 @@
     <!-- JavaScript -->
     <script>
         const mcHosting = document.getElementById("mcHosting");
+        const fiveMHosting = document.getElementById("fiveMHosting");
 
         function toggleMenu() {
             var menu = document.querySelector('.navbar-menu');
@@ -329,18 +336,24 @@
                 var currentProductInfo = responce.products[i];
                 if (currentProductInfo.Product_Identifier.startsWith("MINECRAFT")){
                     mcHosting.innerHTML = mcHosting.innerHTML+`
-                    <div class="buy-option">
-                        <div class="plan">
-                            <h3>${currentProductInfo.Display_Name}</h3>
-                            <p>Price: $${currentProductInfo.Price/100}/month</p>
-                            <p>${currentProductInfo.Description}</p>
-                            <button>Buy Now</button>
+                    <div class="plan">
+                        <h3>${currentProductInfo.Display_Name}</h3>
+                        <p>Price: $${currentProductInfo.Price/100}/month</p>
+                        <p>${currentProductInfo.Description}</p>
+                        <button>Buy Now</button>
+                    </div>
+                    `;
+                } else if (currentProductInfo.Product_Identifier.startsWith("FIVEM")){
+                    fiveMHosting.innerHTML = fiveMHosting.innerHTML+`
+                    <div class="plan">
+                        <h3>${currentProductInfo.Display_Name}</h3>
+                        <p>Price: $${currentProductInfo.Price/100}/month</p>
+                        <p>${currentProductInfo.Description}</p>
+                        <button>Buy Now</button>
                     </div>
                     `;
                 }
             }
-        } else{
-            errorBanner.textContent = "No products right now, come back later.";
         }
     });
     </script>
