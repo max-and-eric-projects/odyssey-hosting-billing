@@ -338,7 +338,6 @@
         <a href="https://panel.odysseynetwork.online">Panel</a>
         <a href="/login">Login</a>
         <a href="/signup">Signup</a>
-        <a href="/logout.html">Logout</a>
     </nav>
 
     <!-- Mobile navigation -->
@@ -354,7 +353,6 @@
             <a href="https://panel.odysseynetwork.online">Panel</a>
             <a href="/login">Login</a>
             <a href="/signup">Signup</a>
-            <a href="/logout.html">Logout</a>
         </div>
     </div>
 
@@ -365,7 +363,7 @@
         <div class="error-banner noerror" id="error-banner"></div>
 
         <h1>Sign Up</h1>
-        <p>Please fill out the form below to create an account.</p>
+        <p>Please fill out the form below to create an account for Odyssey Hosting.</p>
         <form class="signup-form" action="javascript:;" onsubmit="do_signup()">
             <h2>Create Account</h2>
             <input type="text" id="first_name" placeholder="First Name" name="first_name" required>
@@ -407,6 +405,33 @@
         function showError(error){
             document.getElementById("error-banner").innerHTML = `<p> ${error} </p>`;
             document.getElementById("error-banner").classList.remove("noerror");
+        }
+
+        // Check if the user is logged in
+        var loggedIn;
+        var sessionID;
+        
+        function getCookie(name) {
+            const cookieValue = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+            return cookieValue ? cookieValue.pop() : '';
+        }
+
+        sessionID = getCookie('session');
+        loggedIn = sessionID ? true : false;
+        
+        // Check if the session is valid
+        if (loggedIn){
+            webpulsex_getFromSession(sessionID, function(userInfomation) {
+                if (userInfomation.status == "Invalid session"){
+                    document.cookie = "session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                } else if (userInfomation.status == "Success"){ // Session is valid
+                    if(params.r != null){
+                        window.location.replace(params.r);
+                    } else{
+                        window.location.replace("store");
+                    }
+                }
+            });
         }
 
         function do_signup(){
