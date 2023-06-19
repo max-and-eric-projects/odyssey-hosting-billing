@@ -558,13 +558,12 @@
     <script>
         var loadedElements = false;
 
-        var t=setInterval(loadeElements(),100);
-
         function loadeElements(){
             if(loadedElements == true){
                 document.getElementById("body").classList.remove("hide");
             }
         }
+        setInterval(loadeElements(),100);
 
         function toggleMenu() {
             var menu = document.querySelector('.navbar-menu');
@@ -643,7 +642,6 @@
                 } else if(responce.status == "Invalid Password or Session"){
                     showError("Incorrect Password");
                 } else{
-                    showError("Incorrect Password");
                     document.getElementById("confirm_password").value = "";
                 }
             })
