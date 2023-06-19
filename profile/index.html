@@ -689,6 +689,19 @@
                     document.getElementById("confirm_password").value = "";
                     document.getElementById("error-banner").classList.add("noerror");
                     showGood("Details updated successfully");
+                    webpulsex_getFromSession(sessionID, function(userInfomation) {
+                        userInfo = userInfomation;
+                        
+                        document.getElementById("first_name").value = userInfomation.first_name;
+                        document.getElementById("last_name").value = userInfomation.last_name;
+                        document.getElementById("email").value = userInfomation.email;
+                        document.getElementById("username").value = userInfomation.username;
+
+                        document.getElementById("first_name").placeholder = userInfomation.first_name;
+                        document.getElementById("last_name").placeholder = userInfomation.last_name;
+                        document.getElementById("email").placeholder = userInfomation.email;
+                        document.getElementById("username").placeholder = userInfomation.username;
+                    });
                 }
             })
         }
