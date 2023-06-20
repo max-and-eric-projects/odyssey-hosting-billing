@@ -446,12 +446,12 @@
                     showError("Incorrect username and/or password.");
                     password.value = "";
                 } else if (userInfomation.status == "Success"){
+                    document.cookie = `session=${userInfomation.session}; expires=` + new Date(new Date().setMonth(new Date().getMonth() + 6)).toUTCString() + '; path=/';
                     if(params.r != null){
                         window.location.replace(params.r);
                     } else{
                         window.location.replace("/store");
                     }
-                    document.cookie = `session=${userInfomation.session}; expires=` + new Date(new Date().setMonth(new Date().getMonth() + 6)).toUTCString() + '; path=/';
                 } else{
                     showError("An error has occoured, please try again later or contact support.");
                 }
