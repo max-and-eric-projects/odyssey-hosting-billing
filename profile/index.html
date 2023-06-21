@@ -543,29 +543,7 @@
     <!-- Tab content - Active Products -->
     <div id="active-products" class="tab-content">
         <h2>Active Products</h2>
-        <ul class="products-list">
-            <li>
-                <span>Product 1</span>
-                <span class="product-price">$9.99</span>
-                <span>Start Time: 01/01/2023</span>
-                <span>Renewal Date: 01/02/2023</span>
-                <button class="renew-button">Renew</button>
-            </li>
-            <li>
-                <span>Product 2</span>
-                <span class="product-price">$19.99</span>
-                <span>Start Time: 02/01/2023</span>
-                <span>Renewal Date: 02/02/2023</span>
-                <button class="renew-button">Renew</button>
-            </li>
-            <li>
-                <span>Product 3</span>
-                <span class="product-price">$29.99</span>
-                <span>Start Time: 03/01/2023</span>
-                <span>Renewal Date: 03/02/2023</span>
-                <button class="renew-button">Renew</button>
-            </li>
-        </ul>
+        <ul class="products-list" id="listActive"></ul>
     </div>
     <div class="content">
 
@@ -700,12 +678,25 @@
                     webpulsex_getProductInformation(currentOrderInfo.Product_Identifier, function(product){
                         document.getElementById("listBill").innerHTML += `
                         <li>
-                            <span>${product.Display_Name.replace("0", "One Time").replace("1", "Subscription")}</span>
+                            <span>${product.Display_Name}</span>
                             <span class="billing-price">$${currentOrderInfo.price/100}</span>
-                            <span>${currentOrderInfo.subscription}</span>
+                            <span>${currentOrderInfo.subscription.replace("0", "One Time").replace("1", "Subscription")}</span>
                             <span>${date}</span>
                         </li>
                         `;
+
+                        if(currentOrderInfo.active === "1"){
+                            document.getElementById("listActive").innerHTML += `
+                            <li>
+                                <span>${product.Display_Name}</span>
+                                <span class="product-price">$${currentOrderInfo.price/100} (currency may vary)</span>
+                                <span>Start Time: ${date}</span>
+                                <span>Renewal Date: ${(new Date(currentOrderInfo.next_renewal).toDateString())}</span>
+                                <span>${currentOrderInfo.subscription.replace("0", "One Time").replace("1", "Subscription")}</span>
+                                <button href="/renew/?id=${renewal_id}" class="renew-button">Renew</button>
+                            </li>
+                            `;
+                        }
                     });
                 }
             } else{
