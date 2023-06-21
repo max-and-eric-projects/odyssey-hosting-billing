@@ -693,7 +693,7 @@
                                 <span>Start Time: ${date}</span>
                                 <span>Renewal Date: ${(new Date(currentOrderInfo.next_renewal).toDateString())}</span>
                                 <span>${currentOrderInfo.subscription.replace("0", "One Time").replace("1", "Subscription")}</span>
-                                <button href="/renew/?id=${renewal_id}" class="renew-button">Renew</button>
+                                <button href="/renew/?id=${currentOrderInfo.renewal_id}" class="renew-button">Renew</button>
                             </li>
                             `;
                         }
