@@ -694,19 +694,19 @@
             if (responce.status == "Success"){
                 for (var i = 0; i < responce.orders.length; i++) {
                     var currentOrderInfo = responce.orders[i];
-
                     var date = new Date(currentOrderInfo.date);
-
                     date = date.toDateString();
 
-                    document.getElementById("listBill").innerHTML += `
-                    <li>
-                        <span>Billing 1</span>
-                        <span class="billing-price">$ ${currentOrderInfo.price/100}</span>
-                        <span>Description 1</span>
-                        <span>${date}</span>
-                    </li>
-                    `;
+                    webpulsex_getProductInformation(currentOrderInfo.Product_Identifier, function(product){
+                        document.getElementById("listBill").innerHTML += `
+                        <li>
+                            <span>${product.Display_Name}</span>
+                            <span class="billing-price">$${currentOrderInfo.price/100}</span>
+                            <span>${currentOrderInfo.subscription}</span>
+                            <span>${date}</span>
+                        </li>
+                        `;
+                    });
                 }
             } else{
                 document.getElementById("listBill").innerHTML += `<p> No Orders Yet</p>`;
