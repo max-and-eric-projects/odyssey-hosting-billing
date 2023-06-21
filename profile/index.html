@@ -694,7 +694,7 @@
             if (responce.status == "Success"){
                 for (var i = 0; i < responce.orders.length; i++) {
                     var currentOrderInfo = responce.orders[i];
-                    document.getElementById("listBill").innerHTML =+ `
+                    document.getElementById("listBill").innerHTML += `
                     <li>
                         <span>Billing 1</span>
                         <span class="billing-price">$ ${currentOrderInfo.price}</span>
