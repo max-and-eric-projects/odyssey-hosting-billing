@@ -442,6 +442,7 @@
             const password = document.getElementById("password");
         
             webpulsex_login(username.value, password.value, function(userInfomation) {
+		    console.log(userInfomation);
                 if (userInfomation.status == "Incorrect username or password"){
                     showError("Incorrect username and/or password.");
                     password.value = "";
