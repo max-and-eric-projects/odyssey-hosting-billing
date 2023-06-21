@@ -696,20 +696,31 @@
                     var currentOrderInfo = responce.orders[i];
                     var date = currentOrderInfo.date;
 
-                    const options = {
-                    day: "numeric",
-                    month: "short",
-                    year: "numeric"
-                    };
+                    const date = new Date(date);
 
-                    const formattedDate = date.toLocaleDateString("en-GB", options);
                     const day = date.getDate();
-                    const suffix = getNumberSuffix(day); // Custom function to get the day suffix (e.g., "st", "nd", "rd", "th")
+                    const monthIndex = date.getMonth();
+                    const year = date.getFullYear();
 
-                    const finalFormattedDate = formattedDate.replace(
-                    /\b(\d{1,2})\b/,
-                    `$1${suffix}`
-                    );
+                    const months = [
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Aug",
+                    "Sep",
+                    "Oct",
+                    "Nov",
+                    "Dec"
+                    ];
+
+                    const suffix = getNumberSuffix(day); // Custom function to get the day suffix (e.g., "st", "nd", "rd", "th")
+                    const month = months[monthIndex];
+
+                    const formattedDate = `${day}${suffix} ${month} ${year}`;
 
                     document.getElementById("listBill").innerHTML += `
                     <li>
