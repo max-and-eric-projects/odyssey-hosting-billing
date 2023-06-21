@@ -695,35 +695,20 @@
                 for (var i = 0; i < responce.orders.length; i++) {
                     var currentOrderInfo = responce.orders[i];
 
-                    var date = new Date(currentOrderInfo.date);
+                    const date = new Date(currentOrderInfo.date);
 
                     const day = date.getDate();
                     const monthIndex = date.getMonth();
                     const year = date.getFullYear();
 
-                    const months = [
-                    "Jan",
-                    "Feb",
-                    "Mar",
-                    "Apr",
-                    "May",
-                    "Jun",
-                    "Jul",
-                    "Aug",
-                    "Sep",
-                    "Oct",
-                    "Nov",
-                    "Dec"
-                    ];
-
-                    const suffix = getNumberSuffix(day);
-                    const month = months[monthIndex];
+                    const suffix = getDaySuffix(day);
+                    const month = getMonthAbbreviation(monthIndex);
 
                     const formattedDate = `${day}${suffix} ${month} ${year}`;
 
                     console.log(formattedDate);
 
-                    function getNumberSuffix(day) {
+                    function getDaySuffix(day) {
                     if (day >= 11 && day <= 13) {
                         return "th";
                     }
@@ -738,6 +723,25 @@
                         default:
                         return "th";
                     }
+                    }
+
+                    function getMonthAbbreviation(monthIndex) {
+                    const months = [
+                        "Jan",
+                        "Feb",
+                        "Mar",
+                        "Apr",
+                        "May",
+                        "Jun",
+                        "Jul",
+                        "Aug",
+                        "Sep",
+                        "Oct",
+                        "Nov",
+                        "Dec"
+                    ];
+
+                    return months[monthIndex];
                     }
 
                     document.getElementById("listBill").innerHTML += `
