@@ -537,26 +537,7 @@
     <!-- Tab content - Billing -->
     <div id="billing" class="tab-content">
         <h2>Billing</h2>
-        <ul class="billing-list">
-            <li>
-                <span>Billing 1</span>
-                <span class="billing-price">$9.99</span>
-                <span>Description 1</span>
-                <span>Date 1</span>
-            </li>
-            <li>
-                <span>Billing 2</span>
-                <span class="billing-price">$19.99</span>
-                <span>Description 2</span>
-                <span>Date 2</span>
-            </li>
-            <li>
-                <span>Billing 3</span>
-                <span class="billing-price">$29.99</span>
-                <span>Description 3</span>
-                <span>Date 3</span>
-            </li>
-        </ul>
+        <ul class="billing-list" id="listBill"></ul>
     </div>
 
     <!-- Tab content - Active Products -->
@@ -707,6 +688,18 @@
                 }
             })
         }
+
+        // List orders
+        webpulsex_listOrders(sessionID, function(X){
+            getElementById("listBill").innerHTML =+ `
+            <li>
+                <span>Billing 1</span>
+                <span class="billing-price">$9.99</span>
+                <span>Description 1</span>
+                <span>Date 1</span>
+            </li>
+             `;
+        })
     </script>
 </body>
 </html>
