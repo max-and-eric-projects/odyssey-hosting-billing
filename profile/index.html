@@ -694,12 +694,29 @@
             if (responce.status == "Success"){
                 for (var i = 0; i < responce.orders.length; i++) {
                     var currentOrderInfo = responce.orders[i];
+                    var date = currentOrderInfo.date;
+
+                    const options = {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric"
+                    };
+
+                    const formattedDate = date.toLocaleDateString("en-GB", options);
+                    const day = date.getDate();
+                    const suffix = getNumberSuffix(day); // Custom function to get the day suffix (e.g., "st", "nd", "rd", "th")
+
+                    const finalFormattedDate = formattedDate.replace(
+                    /\b(\d{1,2})\b/,
+                    `$1${suffix}`
+                    );
+
                     document.getElementById("listBill").innerHTML += `
                     <li>
                         <span>Billing 1</span>
-                        <span class="billing-price">$ ${currentOrderInfo.price}</span>
+                        <span class="billing-price">$ ${currentOrderInfo.price/100}</span>
                         <span>Description 1</span>
-                        <span>${currentOrderInfo.date}/span>
+                        <span>${finalFormattedDate}</span>
                     </li>
                     `;
                 }
