@@ -690,15 +690,22 @@
         }
 
         // List orders
-        webpulsex_listOrders(sessionID, function(X){
-            getElementById("listBill").innerHTML =+ `
-            <li>
-                <span>Billing 1</span>
-                <span class="billing-price">$9.99</span>
-                <span>Description 1</span>
-                <span>Date 1</span>
-            </li>
-             `;
+        webpulsex_listOrders(sessionID, function(billingInfo){
+            if (responce.status == "Success"){
+                for (var i = 0; i < responce.orders.length; i++) {
+                    var currentOrderInfo = responce.orders[i];
+                    document.getElementById("listBill").innerHTML =+ `
+                    <li>
+                        <span>Billing 1</span>
+                        <span class="billing-price">${currentOrderInfo.price}</span>
+                        <span>Description 1</span>
+                        <span>Date 1</span>
+                    </li>
+                    `;
+                }
+            } else{
+                document.getElementById("listBill").innerHTML =+ `<p> No Orders Yet</p>`;
+            }
         })
     </script>
 </body>
