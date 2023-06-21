@@ -690,7 +690,7 @@
         }
 
         // List orders
-        webpulsex_listOrders(sessionID, function(billingInfo){
+        webpulsex_listOrders(sessionID, function(responce){
             if (responce.status == "Success"){
                 for (var i = 0; i < responce.orders.length; i++) {
                     var currentOrderInfo = responce.orders[i];
