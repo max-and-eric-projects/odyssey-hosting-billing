@@ -700,7 +700,7 @@
                     webpulsex_getProductInformation(currentOrderInfo.Product_Identifier, function(product){
                         document.getElementById("listBill").innerHTML += `
                         <li>
-                            <span>${product.Display_Name}</span>
+                            <span>${product.Display_Name.replace("0", "One Time").replace("1", "Subscription")}</span>
                             <span class="billing-price">$${currentOrderInfo.price/100}</span>
                             <span>${currentOrderInfo.subscription}</span>
                             <span>${date}</span>
