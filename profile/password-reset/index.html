@@ -493,7 +493,7 @@
     <div id="profile-settings" class="tab-content active2">
         <div class="error-banner noerror" id="error-banner"></div>
         <div class="good-banner nogood" id="good-banner"></div>
-        <form class="profile-form" action="javascript:;" onsubmit="do_changeDetails()">
+        <form class="profile-form" action="javascript:;" onsubmit="do_changePass()">
             <h2>Change Password</h2>
             <label>Old Password:</label>
             <input type="password" name="password" id="password" required>
@@ -504,5 +504,88 @@
             <button type="submit">Save Changes</button>
         </form>
     </div>
+    
+    <script>
+        var loadedElements = false;
+
+        function loadeElements(){
+            if(loadedElements == true){
+                document.getElementById("body").classList.remove("hide");
+            }
+        }
+        setInterval(loadeElements,100);
+
+        function showError(error){
+            document.getElementById("error-banner").innerHTML = `<p> ${error} </p>`;
+            document.getElementById("error-banner").classList.remove("noerror");
+        }
+
+        function showGood(good){
+            document.getElementById("good-banner").innerHTML = `<p> ${good} </p>`;
+            document.getElementById("good-banner").classList.remove("nogood");
+        }
+
+        // Check if the user is logged in
+        var loggedIn;
+        var sessionID;
+        var userInfo;
+        
+        function getCookie(name) {
+            const cookieValue = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+            return cookieValue ? cookieValue.pop() : '';
+        }
+
+        sessionID = getCookie('session');
+        loggedIn = sessionID ? true : false;
+        
+        // Check if the session is valid
+        if (loggedIn){
+            webpulsex_getFromSession(sessionID, function(userInfomation) {
+                if (userInfomation.status == "Invalid session"){
+                    document.cookie = "session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                    // Not logged in
+                    window.location.replace("/login");
+                } else if (userInfomation.status == "Success"){
+                    // Logged in
+                    userInfo = userInfomation;
+                    document.getElementById("first_name").value = userInfomation.first_name;
+                    document.getElementById("last_name").value = userInfomation.last_name;
+                    document.getElementById("email").value = userInfomation.email;
+                    document.getElementById("username").value = userInfomation.username;
+
+                    document.getElementById("first_name").placeholder = userInfomation.first_name;
+                    document.getElementById("last_name").placeholder = userInfomation.last_name;
+                    document.getElementById("email").placeholder = userInfomation.email;
+                    document.getElementById("username").placeholder = userInfomation.username;
+
+                    loadedElements = true;
+                }
+            });
+        } else{
+            // Not logged in 
+            window.location.replace("/login");
+        }
+
+        function do_changePass(){
+            var password = document.getElementById("password").value;
+            var new_password = document.getElementById("new_password").value;
+            var new_password_conf = document.getElementById("new_password_conf").value;
+
+            if(new_password.value != new_password_conf.value){
+                document.getElementById("good-banner").classList.add("nogood");
+                showError("Passwords do not match");
+            } else{
+                webpulsex_updatePass(sessionID, password, new_password, function(responce){
+                if(responce.status == "Invalid Password or Session"){
+                    document.getElementById("good-banner").classList.add("nogood");
+                    showError("Invalid Password");
+                } else if(responce.status == "Success"){
+                    document.getElementById("error-banner").classList.add("noerror");
+                    showGood("Password updated successfully");
+                }
+            })
+            }
+        }
+    </script>
 </body>
 </html>
