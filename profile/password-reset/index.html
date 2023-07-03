@@ -571,7 +571,7 @@
             var new_password = document.getElementById("new_password").value;
             var new_password_conf = document.getElementById("new_password_conf").value;
 
-            if(new_password.value != new_password_conf.value){
+            if(new_password != new_password_conf){
                 document.getElementById("good-banner").classList.add("nogood");
                 showError("Passwords do not match");
             } else{
