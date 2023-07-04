@@ -529,6 +529,11 @@
         }
         setInterval(loadeElements,100);
 
+        function toggleMenu() {
+            var menu = document.querySelector('.navbar-menu');
+            menu.classList.toggle('active');
+        }
+
         function showError(error){
             document.getElementById("error-banner").innerHTML = `<p> ${error} </p>`;
             document.getElementById("error-banner").classList.remove("noerror");
@@ -562,16 +567,6 @@
                 } else if (userInfomation.status == "Success"){
                     // Logged in
                     userInfo = userInfomation;
-                    document.getElementById("first_name").value = userInfomation.first_name;
-                    document.getElementById("last_name").value = userInfomation.last_name;
-                    document.getElementById("email").value = userInfomation.email;
-                    document.getElementById("username").value = userInfomation.username;
-
-                    document.getElementById("first_name").placeholder = userInfomation.first_name;
-                    document.getElementById("last_name").placeholder = userInfomation.last_name;
-                    document.getElementById("email").placeholder = userInfomation.email;
-                    document.getElementById("username").placeholder = userInfomation.username;
-
                     loadedElements = true;
                 }
             });
