@@ -380,7 +380,7 @@
 
     <div class="content">
         <div class="checkout-form">
-            <h2>Checkout - error</h2>
+            <h2 id="checkoutDisplay">Checkout - Loading</h2>
             <form id="payment-form">
                 <label for="fName">First Name <span class="mandatory">*</span></label>
                 <input type="text" id="fName" name="fName" placeholder="First Name" required>
@@ -429,6 +429,45 @@
         }
 
         webpulsex_prepareCheckout();
+
+        const product = new URLSearchParams(window.location.search).get('product');
+
+        var Price;
+        var Stock;
+        var Description;
+        var Display_Name;
+
+        var checkoutBanner = document.getElementById("checkoutDisplay");
+
+        if (!product){
+            window.location.replace("/store");
+        }
+
+        webpulsex_getProductInformation(product, function(productInfomation) {
+            if (productInfomation.status == "Success"){
+                Display_Name = productInfomation.Display_Name;
+                Description = productInfomation.Description;
+                Stock = productInfomation.Stock;
+                Price = parseInt(productInfomation.Price);
+
+                console.log("Success");
+            } else{
+                window.location.replace("/store");
+            }
+
+            // Rest of the pages JS should go in here as this will only occour when we have the product info
+            checkoutBanner.textContent = "Checkout - " + Display_Name;
+            
+            // // Get values from the input fields
+            // var couponField = document.getElementById('coupon-code');
+            
+            // // This just fixes the issue where if the field is un-edited, the variable will be undefined
+            // webpulsex_coupon = "";
+            
+            // couponField.addEventListener('input', (event) => {
+            //     webpulsex_coupon = event.target.value;
+            // });
+        });
     </script>
 </body>
 </html>
