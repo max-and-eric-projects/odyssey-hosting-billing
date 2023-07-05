@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Odyssey Hosting - Shop</title>
+    <title>Odyssey Hosting - Checkout</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://webpulsex.com/public/b9d7a79b63e885e1/main.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
     <style>
         /* Global styles */
         * {
@@ -106,7 +107,7 @@
         
         /* Main content */
         .content {
-            padding: 80px 20px;
+            padding: 20px 20px;
             text-align: center;
             margin-top: 60px;
         }
@@ -129,7 +130,7 @@
         
         .section h2 {
             font-size: 36px;
-            margin-bottom: 20px;
+            bottom: 20px;
             color: #333;
         }
         
@@ -168,7 +169,6 @@
             color: #555;
             margin-bottom: 10px;
         }
-        
         .plan button {
             background-color: #333;
             color: #fff;
@@ -193,6 +193,90 @@
             font-size: 16px;
         }
         
+        /* Checkout form */
+        .checkout-form {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        .checkout-form h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .checkout-form label {
+            display: block;
+            text-align: left;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .checkout-form input[type="text"],
+        .checkout-form input[type="email"],
+        .checkout-form input[type="password"],
+        .checkout-form select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        .checkout-form input[type="checkbox"] {
+            margin-top: 10px;
+        }
+
+        .checkout-form button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .checkout-form button:hover {
+            background-color: #555;
+        }
+
+        /* Mandatory field indicator */
+        .mandatory {
+            color: #f44336;
+        }
+
+        /* Stripe card element */
+        #card-element {
+            padding: 10px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+        }
+
+        /* Stripe error message */
+        #card-errors {
+            color: #f44336;
+            margin-top: 10px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            margin-right: 5px;
+        }
+ 
         /* Media Queries */
         @media (max-width: 768px) {
             .navbar-desktop {
@@ -259,16 +343,25 @@
                 width: 100%;
             }
         }
+        
+        /* Checkout form - Mobile */
+        @media (max-width: 500px) {
+            .checkout-form {
+                padding: 10px;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- Desktop navigation -->
-    <div class="navbar-desktop" id="nav1">
+    <nav class="navbar-desktop">
         <a href="/">Home</a>
         <a href="/store">Store</a>
         <a href="https://panel.odysseynetwork.online">Panel</a>
-    </div>
-    
+        <a href="/login">Login</a>
+        <a href="/signup">Signup</a>
+    </nav>
+
     <!-- Mobile navigation -->
     <div class="navbar-mobile">
         <div class="navbar-toggle" onclick="toggleMenu()">
@@ -276,113 +369,105 @@
             <span></span>
             <span></span>
         </div>
-        <div class="navbar-menu" id="nav2">
+        <div class="navbar-menu" id="navbarMenu">
             <a href="/">Home</a>
             <a href="/store">Store</a>
             <a href="https://panel.odysseynetwork.online">Panel</a>
+            <a href="/login">Login</a>
+            <a href="/signup">Signup</a>
         </div>
     </div>
-    
-    <!-- Main content -->
+
     <div class="content">
-        <h1>Store</h1>
-        
-        <div class="section">
-            <h2>Minecraft Server Hosting</h2>
-            <div class="buy-option" id="mcHosting"></div>
-        </div>
-
-        <div class="section">
-            <h2>FiveM Hosting</h2>
-            <div class="buy-option" id="fiveMHosting"></div>
+        <div class="checkout-form">
+            <h2 id="checkoutDisplay">Checkout - Loading</h2>
+            <form id="payment-form">
+                <label for="fName">First Name <span class="mandatory">*</span></label>
+                <input type="text" id="fName" name="fName" placeholder="First Name" required>
+                <label for="lName">Last Name <span class="mandatory">*</span></label>
+                <input type="text" id="lName" name="lName" placeholder="Last Name" required>
+                <label for="address-one">Address Line One <span class="mandatory">*</span></label>
+                <input type="text" id="address-one" name="address-one" placeholder="Address Line One" required>
+                <label for="address-two">Address Line Two </label>
+                <input type="text" id="address-two" name="address-two" placeholder="Address Line Two">
+                <label for="postcode">Zip / Postcode <span class="mandatory">*</span></label>
+                <input type="text" id="postcode" name="postcode" placeholder="Zip or Postcode" required>
+                <label for="coupon">Coupon </label>
+                <input type="text" id="coupon" name="coupon" placeholder="Coupon">
+                <label for="card">Card Number <span class="mandatory">*</span></label>
+                <div id="card-element"></div>
+                <div id="card-errors" role="alert"></div>
+                <input type="hidden" name="stripeToken">
+                <label for="terms" class="checkbox-label">
+                    I agree to the terms and conditions <span class="mandatory">*</span>
+                    <input type="checkbox" id="terms" name="terms" required>
+                </label>                
+                <button type="submit">Place Order</button>
+            </form>
         </div>
     </div>
-    
-<!-- Footer -->
-<div class="footer">
-    <p>&copy; 2023 Before Hours Hosting. All rights reserved. All trademarks acknowledged. Made For Odyssey Hosting By WebPulseX</p>
-    <p>
-        <a href="/terms" style="color: #fff;">Terms of Service</a> |
-        <a href="/privacy" style="color: #fff;">Privacy Policy</a> |
-        <a href="/contact" style="color: #fff;">Contact Us</a>
-    </p>
-    <p style="color: #fff;">
-        Email: info@bfterhourshosting.com <br>
-        Phone: +1 (123) 456-7890 (Mon-Fri, 9am-5pm) <br>
-        Address: 1234 Main Street, City, State, 12345
-    </p>
-</div>
 
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2023 Odyssey Hosting. All rights reserved. All trademarks acknowledged. Made For Odyssey Hosting By WebPulseX</p>
+        <p>
+            <a href="/terms" style="color: #fff;">Terms of Service</a> |
+            <a href="/privacy" style="color: #fff;">Privacy Policy</a> |
+            <a href="/contact" style="color: #fff;">Contact Us</a>
+        </p>
+        <p style="color: #fff;">
+            Email: info@bfterhourshosting.com <br>
+            Phone: +1 (123) 456-7890 (Mon-Fri, 9am-5pm) <br>
+            Address: 1234 Main Street, City, State, 12345
+        </p>
+    </div>
 
-    <!-- JavaScript -->
     <script>
-        const mcHosting = document.getElementById("mcHosting");
-        const fiveMHosting = document.getElementById("fiveMHosting");
-
         function toggleMenu() {
-            var menu = document.querySelector('.navbar-menu');
-            menu.classList.toggle('active');
+            var navbarMenu = document.getElementById("navbarMenu");
+            navbarMenu.classList.toggle("active");
         }
 
-        // Check if the user is logged in
-        var loggedIn;
-        var sessionID;
-        
-        function getCookie(name) {
-            const cookieValue = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
-            return cookieValue ? cookieValue.pop() : '';
+        webpulsex_prepareCheckout();
+
+        const product = new URLSearchParams(window.location.search).get('product');
+
+        var Price;
+        var Stock;
+        var Description;
+        var Display_Name;
+
+        var checkoutBanner = document.getElementById("checkoutDisplay");
+
+        if (!product){
+            window.location.replace("/store");
         }
 
-        sessionID = getCookie('session');
-        loggedIn = sessionID ? true : false;
-        
-        // Check if the session is valid
-        if (loggedIn){
-            webpulsex_getFromSession(sessionID, function(userInfomation) {
-                if (userInfomation.status == "Invalid session"){
-                    document.cookie = "session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                    // Not logged in
-                    document.getElementById("nav1").innerHTML += `<a href="/login">Login</a> <a href="/signup">Signup</a>`;
-                    document.getElementById("nav2").innerHTML += `<a href="/login">Login</a> <a href="/signup">Signup</a>`;
-                } else if (userInfomation.status == "Success"){
-                    // Logged in
-                    document.getElementById("nav1").innerHTML += `<a href="/profile">Profile</a> <a href="/logout">Logout</a>`;
-                    document.getElementById("nav2").innerHTML += `<a href="/profile">Profile</a> <a href="/logout">Logout</a>`;
-                }
-            });
-        } else{
-            // Not logged in
-            document.getElementById("nav1").innerHTML += `<a href="/login">Login</a> <a href="/signup">Signup</a>`;
-            document.getElementById("nav2").innerHTML += `<a href="/login">Login</a> <a href="/signup">Signup</a>`;
-        }
+        webpulsex_getProductInformation(product, function(productInfomation) {
+            if (productInfomation.status == "Success"){
+                Display_Name = productInfomation.Display_Name;
+                Description = productInfomation.Description;
+                Stock = productInfomation.Stock;
+                Price = parseInt(productInfomation.Price);
 
-        // List the products
-        webpulsex_listProducts(function(responce){
-        if (responce.status == "Success"){
-            for (var i = 0; i < responce.products.length; i++) {
-                var currentProductInfo = responce.products[i];
-                if (currentProductInfo.Product_Identifier.startsWith("MINECRAFT")){
-                    mcHosting.innerHTML = mcHosting.innerHTML+`
-                    <div class="plan">
-                        <h3>${currentProductInfo.Display_Name}</h3>
-                        <p>Price: $${currentProductInfo.Price/100}/month</p>
-                        <p>${currentProductInfo.Description}</p>
-                        <a href="/checkout?product=${currentProductInfo.Product_Identifier}">Buy Now</a>
-                    </div>
-                    `;
-                } else if (currentProductInfo.Product_Identifier.startsWith("FIVEM")){
-                    fiveMHosting.innerHTML = fiveMHosting.innerHTML+`
-                    <div class="plan">
-                        <h3>${currentProductInfo.Display_Name}</h3>
-                        <p>Price: $${currentProductInfo.Price/100}/month</p>
-                        <p>${currentProductInfo.Description}</p>
-                        <a href="/checkout?product=${currentProductInfo.Product_Identifier}>Buy Now</a>
-                    </div>
-                    `;
-                }
+                console.log("Success");
+            } else{
+                window.location.replace("/store");
             }
-        }
-    });
+
+            // Rest of the pages JS should go in here as this will only occour when we have the product info
+            checkoutBanner.textContent = "Checkout - " + Display_Name;
+            
+            // // Get values from the input fields
+            // var couponField = document.getElementById('coupon-code');
+            
+            // // This just fixes the issue where if the field is un-edited, the variable will be undefined
+            // webpulsex_coupon = "";
+            
+            // couponField.addEventListener('input', (event) => {
+            //     webpulsex_coupon = event.target.value;
+            // });
+        });
     </script>
 </body>
 </html>
