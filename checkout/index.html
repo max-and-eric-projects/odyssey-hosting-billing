@@ -4,6 +4,7 @@
     <title>Odyssey Hosting - Checkout</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://webpulsex.com/public/b9d7a79b63e885e1/main.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
     <style>
         /* Global styles */
         * {
@@ -168,7 +169,6 @@
             color: #555;
             margin-bottom: 10px;
         }
-        
         .plan button {
             background-color: #333;
             color: #fff;
@@ -201,22 +201,22 @@
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            text-align: center;
+            text-align: left;
         }
-        
+
         .checkout-form h2 {
             font-size: 28px;
             margin-bottom: 20px;
             color: #333;
         }
-        
+
         .checkout-form label {
             display: block;
             text-align: left;
             margin-bottom: 10px;
             font-size: 18px;
         }
-        
+
         .checkout-form input[type="text"],
         .checkout-form input[type="email"],
         .checkout-form input[type="password"],
@@ -228,11 +228,11 @@
             border: 1px solid #ccc;
             font-size: 16px;
         }
-        
+
         .checkout-form input[type="checkbox"] {
             margin-top: 10px;
         }
-        
+
         .checkout-form button {
             background-color: #333;
             color: #fff;
@@ -243,16 +243,40 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
-        
+
         .checkout-form button:hover {
             background-color: #555;
         }
-        
+
         /* Mandatory field indicator */
         .mandatory {
             color: #f44336;
         }
-        
+
+        /* Stripe card element */
+        #card-element {
+            padding: 10px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+        }
+
+        /* Stripe error message */
+        #card-errors {
+            color: #f44336;
+            margin-top: 10px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            margin-right: 5px;
+        }
+ 
         /* Media Queries */
         @media (max-width: 768px) {
             .navbar-desktop {
@@ -356,28 +380,28 @@
 
     <div class="content">
         <div class="checkout-form">
-            <h2>Checkout</h2>
-            <form>
-                <label for="name">Name <span class="mandatory">*</span></label>
-                <input type="text" id="name" name="name" required>
-                <label for="email">Email <span class="mandatory">*</span></label>
-                <input type="email" id="email" name="email" required>
-                <label for="address">Address <span class="mandatory">*</span></label>
-                <input type="text" id="address" name="address" required>
-                <label for="city">City <span class="mandatory">*</span></label>
-                <input type="text" id="city" name="city" required>
-                <label for="state">State <span class="mandatory">*</span></label>
-                <input type="text" id="state" name="state" required>
-                <label for="zip">Zip Code <span class="mandatory">*</span></label>
-                <input type="text" id="zip" name="zip" required>
+            <h2>Checkout - error</h2>
+            <form id="payment-form">
+                <label for="fName">First Name <span class="mandatory">*</span></label>
+                <input type="text" id="fName" name="fName" placeholder="First Name" required>
+                <label for="lName">Last Name <span class="mandatory">*</span></label>
+                <input type="text" id="lName" name="lName" placeholder="Last Name" required>
+                <label for="address-one">Address Line One <span class="mandatory">*</span></label>
+                <input type="text" id="address-one" name="address-one" placeholder="Address Line One" required>
+                <label for="address-two">Address Line Two </label>
+                <input type="text" id="address-two" name="address-two" placeholder="Address Line Two">
+                <label for="postcode">Zip / Postcode <span class="mandatory">*</span></label>
+                <input type="text" id="postcode" name="postcode" placeholder="Zip or Postcode" required>
+                <label for="coupon">Coupon </label>
+                <input type="text" id="coupon" name="coupon" placeholder="Coupon">
                 <label for="card">Card Number <span class="mandatory">*</span></label>
-                <input type="text" id="card" name="card" required>
-                <label for="expiry">Expiry Date <span class="mandatory">*</span></label>
-                <input type="text" id="expiry" name="expiry" required>
-                <label for="cvv">CVV <span class="mandatory">*</span></label>
-                <input type="text" id="cvv" name="cvv" required>
-                <input type="checkbox" id="terms" name="terms" required>
-                <label for="terms">I agree to the terms and conditions <span class="mandatory">*</span></label>
+                <div id="card-element"></div>
+                <div id="card-errors" role="alert"></div>
+                <input type="hidden" name="stripeToken">
+                <label for="terms" class="checkbox-label">
+                    I agree to the terms and conditions <span class="mandatory">*</span>
+                    <input type="checkbox" id="terms" name="terms" required>
+                </label>                
                 <button type="submit">Place Order</button>
             </form>
         </div>
@@ -403,6 +427,8 @@
             var navbarMenu = document.getElementById("navbarMenu");
             navbarMenu.classList.toggle("active");
         }
+
+        webpulsex_prepareCheckout();
     </script>
 </body>
 </html>
