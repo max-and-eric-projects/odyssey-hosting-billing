@@ -354,31 +354,30 @@
 
         // List the products
         webpulsex_listProducts(function(responce){
-            console.log("Hello World");
-        // if (responce.status == "Success"){
-        //     for (var i = 0; i < responce.products.length; i++) {
-        //         var currentProductInfo = responce.products[i];
-        //         if (currentProductInfo.Product_Identifier.startsWith("MINECRAFT")){
-        //             mcHosting.innerHTML = mcHosting.innerHTML+`
-        //             <div class="plan">
-        //                 <h3>${currentProductInfo.Display_Name}</h3>
-        //                 <p>Price: $${currentProductInfo.Price/100}/month</p>
-        //                 <p>${currentProductInfo.Description}</p>
-        //                 <a href="/checkout?product=${currentProductInfo.Product_Identifier}">Buy Now</a>
-        //             </div>
-        //             `;
-        //         } else if (currentProductInfo.Product_Identifier.startsWith("FIVEM")){
-        //             fiveMHosting.innerHTML = fiveMHosting.innerHTML+`
-        //             <div class="plan">
-        //                 <h3>${currentProductInfo.Display_Name}</h3>
-        //                 <p>Price: $${currentProductInfo.Price/100}/month</p>
-        //                 <p>${currentProductInfo.Description}</p>
-        //                 <a href="/checkout?product=${currentProductInfo.Product_Identifier}">Buy Now</a>
-        //             </div>
-        //             `;
-        //         }
-        //     }
-        // }
+        if (responce.status == "Success"){
+            for (var i = 0; i < responce.products.length; i++) {
+                var currentProductInfo = responce.products[i];
+                if (currentProductInfo.Product_Identifier.startsWith("MINECRAFT")){
+                    mcHosting.innerHTML = mcHosting.innerHTML+`
+                    <div class="plan">
+                        <h3>${currentProductInfo.Display_Name}</h3>
+                        <p>Price: $${currentProductInfo.Price/100}/month</p>
+                        <p>${currentProductInfo.Description}</p>
+                        <a href="/checkout?product=${currentProductInfo.Product_Identifier}">Buy Now</a>
+                    </div>
+                    `;
+                } else if (currentProductInfo.Product_Identifier.startsWith("FIVEM")){
+                    fiveMHosting.innerHTML = fiveMHosting.innerHTML+`
+                    <div class="plan">
+                        <h3>${currentProductInfo.Display_Name}</h3>
+                        <p>Price: $${currentProductInfo.Price/100}/month</p>
+                        <p>${currentProductInfo.Description}</p>
+                        <a href="/checkout?product=${currentProductInfo.Product_Identifier}">Buy Now</a>
+                    </div>
+                    `;
+                }
+            }
+        }
     });
     </script>
 </body>
