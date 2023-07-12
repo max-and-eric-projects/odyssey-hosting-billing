@@ -394,7 +394,7 @@
                 <input type="text" id="address-two" name="address-two" placeholder="Address Line Two">
                 <label for="postcode">Zip / Postcode <span class="mandatory">*</span></label>
                 <input type="text" id="postcode" name="postcode" placeholder="Zip or Postcode" required>
-                <label for="coupon">Coupon </label>
+                <label id="couponName" for="coupon">Coupon </label>
                 <input type="text" id="coupon" name="coupon" placeholder="Coupon">
                 <label for="card">Card Number <span class="mandatory">*</span></label>
                 <div id="card-element"></div>
@@ -404,7 +404,7 @@
                     I agree to the terms and conditions <span class="mandatory">*</span>
                     <input type="checkbox" id="terms" name="terms" required>
                 </label>                
-                <button type="submit">Place Order</button>
+                <button type="submit" id="containsPrice">Place Order</button>
             </form>
         </div>
     </div>
@@ -460,6 +460,7 @@
         webpulsex_prepareCheckout();
 
         var Price;
+        var Price_Org;
         var Stock;
         var Description;
         var Display_Name;
@@ -476,8 +477,8 @@
                 Description = productInfomation.Description;
                 Stock = productInfomation.Stock;
                 Price = parseInt(productInfomation.Price);
-
-                console.log("Success");
+                Price_Org = Price;
+                document.getElementById("containsPrice").textContent = `Place Order - ${Price}`;
             } else{
                 window.location.replace("/store");
             }
@@ -485,15 +486,36 @@
             // Rest of the pages JS should go in here as this will only occour when we have the product info
             checkoutBanner.textContent = "Checkout - " + Display_Name;
             
-            // // Get values from the input fields
-            // var couponField = document.getElementById('coupon-code');
+            // Get values from the input fields
+            var couponField = document.getElementById('coupon-code');
             
-            // // This just fixes the issue where if the field is un-edited, the variable will be undefined
-            // webpulsex_coupon = "";
+            // This just fixes the issue where if the field is un-edited, the variable will be undefined
+            webpulsex_coupon = "";
             
-            // couponField.addEventListener('input', (event) => {
-            //     webpulsex_coupon = event.target.value;
-            // });
+            couponField.addEventListener('input', (event) => {
+                webpulsex_coupon = event.target.value;
+                webpulsex_checkCoupon(webpulsex_coupon, function(response) {
+                    if(response.status == "Invalid code" || response.status == "Max uses reached"){
+                        document.getElementById("couponName") = "Coupon - Invalid";
+                        Price = Price_Org;
+                    } else if(response.status == "Valid code"){
+                        var discount;
+                        if(response.type === 0){
+                            // This is annoying
+                            Price = Price_Org;
+                            Price = Price_Org - (Price_Org * (response.percentage_discount / 100));
+                            discount = Price_Org * (response.percentage_discoun / 100);
+                        } else{
+                            // This is the easy bit
+                            Price = Price_Org;
+                            discount = response.price_discount;
+                            Price = Price_Org - discount;
+                        }
+                        document.getElementById("couponName").textContent = `Coupon - $${discount} off`;
+                        document.getElementById("containsPrice").textContent = `Place Order - ${Price}`;
+                    }
+                });
+            });
         });
     </script>
 </body>
