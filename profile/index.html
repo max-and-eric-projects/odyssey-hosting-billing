@@ -692,6 +692,7 @@
 
         // List orders
         webpulsex_listOrders(sessionID, function(responce){
+            var haveNoActiveProds = true;
             if (responce.status == "Success"){
                 for (var i = 0; i < responce.orders.length; i++) {
                     var currentOrderInfo = responce.orders[i];
@@ -709,6 +710,7 @@
                         `;
 
                         if(currentOrderInfo.active === "1"){
+                            haveNoActiveProds = false;
                             document.getElementById("listActive").innerHTML += `
                             <li>
                                 <span>${product.Display_Name}</span>
@@ -721,6 +723,10 @@
                             `;
                         }
                     });
+                }
+
+                if(haveNoActiveProds){
+                    document.getElementById("listActive").innerHTML += `<p> No Active Products</p>`;
                 }
             } else{
                 document.getElementById("listBill").innerHTML += `<p> No Orders Yet</p>`;
