@@ -496,7 +496,7 @@
                 webpulsex_coupon = event.target.value;
                 webpulsex_checkCoupon(webpulsex_coupon, function(response) {
                     if(response.status == "Invalid code" || response.status == "Max uses reached"){
-                        document.getElementById("couponName") = "Coupon - Invalid";
+                        document.getElementById("couponName").textContent = "Coupon - Invalid";
                         Price = Price_Org;
                     } else if(response.status == "Valid code"){
                         var discount;
