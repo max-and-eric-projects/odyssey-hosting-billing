@@ -494,32 +494,31 @@
             
             couponField.addEventListener('input', (event) => {
                 webpulsex_coupon = event.target.value;
-                webpulsex_checkCoupon(webpulsex_coupon, function(response) {
-                    if(response.status == "Invalid code" || response.status == "Max uses reached"){
-                        document.getElementById("couponName").textContent = "Coupon - Invalid";
-                        Price = Price_Org;
-                        document.getElementById("containsPrice").textContent = `Place Order - ${Price}`;
-                    } else if(response.status == "Valid code"){
-                        var discount;
-                        console.log(response.type)
-                        if(response.type === "1"){
-                            // This is annoying
+                if (!webpulsex_coupon == ""){
+                    webpulsex_checkCoupon(webpulsex_coupon, function(response) {
+                        if(response.status == "Invalid code" || response.status == "Max uses reached"){
+                            document.getElementById("couponName").textContent = "Coupon - Invalid";
                             Price = Price_Org;
-                            Price = Price_Org - (Price_Org * (response.percentage_discount / 100));
-                            discount = Price_Org * (response.percentage_discount / 100);
-
-
-                            console.log(`${Price} ${discount}`);
-                        } else{
-                            // This is the easy bit
-                            Price = Price_Org;
-                            discount = response.price_discount;
-                            Price = Price_Org - discount;
+                            document.getElementById("containsPrice").textContent = `Place Order - ${Price}`;
+                        } else if(response.status == "Valid code"){
+                            var discount;
+                            console.log(response.type)
+                            if(response.type === "1"){
+                                // This is annoying
+                                Price = Price_Org;
+                                Price = Price_Org - (Price_Org * (response.percentage_discount / 100));
+                                discount = Price_Org * (response.percentage_discount / 100);
+                            } else{
+                                // This is the easy bit
+                                Price = Price_Org;
+                                discount = response.price_discount;
+                                Price = Price_Org - discount;
+                            }
+                            document.getElementById("couponName").textContent = `Coupon - $${discount} off`;
+                            document.getElementById("containsPrice").textContent = `Place Order - ${Price}`;
                         }
-                        document.getElementById("couponName").textContent = `Coupon - $${discount} off`;
-                        document.getElementById("containsPrice").textContent = `Place Order - ${Price}`;
-                    }
-                });
+                    });
+                }
             });
         });
     </script>
