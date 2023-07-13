@@ -501,6 +501,7 @@
                         document.getElementById("containsPrice").textContent = `Place Order - ${Price}`;
                     } else if(response.status == "Valid code"){
                         var discount;
+                        console.log(response.type)
                         if(response.type === 1){
                             // This is annoying
                             Price = Price_Org;
