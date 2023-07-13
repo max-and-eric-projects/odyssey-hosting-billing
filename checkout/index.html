@@ -502,7 +502,7 @@
                     } else if(response.status == "Valid code"){
                         var discount;
                         console.log(response.type)
-                        if(response.type === 1){
+                        if(response.type === "1"){
                             // This is annoying
                             Price = Price_Org;
                             Price = Price_Org - (Price_Org * (response.percentage_discount / 100));
