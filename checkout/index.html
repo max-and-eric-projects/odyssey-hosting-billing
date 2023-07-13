@@ -506,6 +506,9 @@
                             Price = Price_Org;
                             Price = Price_Org - (Price_Org * (response.percentage_discount / 100));
                             discount = Price_Org * (response.percentage_discount / 100);
+
+
+                            console.log(`${Price} ${discount}`);
                         } else{
                             // This is the easy bit
                             Price = Price_Org;
