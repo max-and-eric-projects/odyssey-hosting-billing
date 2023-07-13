@@ -360,8 +360,8 @@
         <a href="/">Home</a>
         <a href="/store">Store</a>
         <a href="https://panel.odysseynetwork.online">Panel</a>
-        <a href="/login">Login</a>
-        <a href="/signup">Signup</a>
+        <a href="/profile">Profile</a>
+        <a href="/logout">Logout</a>
     </nav>
 
     <!-- Mobile navigation -->
@@ -375,8 +375,8 @@
             <a href="/">Home</a>
             <a href="/store">Store</a>
             <a href="https://panel.odysseynetwork.online">Panel</a>
-            <a href="/login">Login</a>
-            <a href="/signup">Signup</a>
+            <a href="/profile">Profile</a>
+            <a href="/logout">Logout</a>
         </div>
     </div>
 
@@ -498,13 +498,14 @@
                     if(response.status == "Invalid code" || response.status == "Max uses reached"){
                         document.getElementById("couponName").textContent = "Coupon - Invalid";
                         Price = Price_Org;
+                        document.getElementById("containsPrice").textContent = `Place Order - ${Price}`;
                     } else if(response.status == "Valid code"){
                         var discount;
                         if(response.type === 1){
                             // This is annoying
                             Price = Price_Org;
                             Price = Price_Org - (Price_Org * (response.percentage_discount / 100));
-                            discount = Price_Org * (response.percentage_discoun / 100);
+                            discount = Price_Org * (response.percentage_discount / 100);
                         } else{
                             // This is the easy bit
                             Price = Price_Org;
