@@ -431,6 +431,16 @@
         var loggedIn;
         var sessionID;
         var userInfo;
+
+        var webpulsex_session;
+        var webpulsex_productIdentifier = product;
+        var webpulsex_email;
+        var webpulsex_coupon;
+        var webpulsex_postcode;
+        var webpulsex_addressLineOne;
+        var webpulsex_addressLineTwo;
+        var webpulsex_lastName;
+        var webpulsex_firstName;
         
         function getCookie(name) {
             const cookieValue = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
@@ -519,6 +529,40 @@
                         }
                     });
                 }
+            });
+
+            var couponField = document.getElementById('coupon');
+            var postcodeField = document.getElementById('postcode');
+            var addressLineOneField = document.getElementById('address-one');
+            var addressLineTwoField = document.getElementById('address-two');
+            var lastNameField = document.getElementById('lName');
+            var firstNameField = document.getElementById('fName');
+            
+            // This just fixes the issue where if the field is un-edited, the variable will be undefined
+            webpulsex_coupon = "";
+            webpulsex_postcode = "";
+            webpulsex_addressLineOne = "";
+            webpulsex_addressLineTwo = "";
+            webpulsex_lastName = "";
+            webpulsex_firstName = "";
+            
+            couponField.addEventListener('input', (event) => {
+                webpulsex_coupon = event.target.value;
+            });
+            postcodeField.addEventListener('input', (event) => {
+                webpulsex_postcode = event.target.value;
+            });
+            addressLineOneField.addEventListener('input', (event) => {
+                webpulsex_addressLineOne = event.target.value;
+            });
+            addressLineTwoField.addEventListener('input', (event) => {
+                webpulsex_addressLineTwo = event.target.value;
+            });
+            lastNameField.addEventListener('input', (event) => {
+                webpulsex_lastName = event.target.value;
+            });
+            firstNameField.addEventListener('input', (event) => {
+                webpulsex_firstName = event.target.value;
             });
         });
     </script>
