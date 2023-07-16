@@ -461,6 +461,7 @@
                     // Logged in
                     userInfo = userInfomation;
                     webpulsex_session = userInfomation.session;
+                    webpulsex_email = userInfomation.email;
                 }
             });
         } else{
@@ -566,6 +567,14 @@
                 webpulsex_firstName = event.target.value;
             });
         });
+
+        function publicCompletePayment(paymentInfo){
+            if(paymentInfo.status == "Checkout Successful"){
+                window.location.replace(`/checkoutSuccessful.html?id=${paymentInfo.Order_Number}&product=${product}`);
+            } else{
+                window.location.replace("/checkoutFailed.html");
+            }
+        }
     </script>
 </body>
 </html>
